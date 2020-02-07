@@ -1,0 +1,31 @@
+# encoding: utf-8
+
+create_table "admins", {id: :serial, force: :cascade} do |t|
+  t.string "admin_id"
+  t.string "password"
+  t.string "token"
+  t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.string "deleted", {limit: 1}
+end
+
+create_table "members", {id: :serial, force: :cascade} do |t|
+  t.string "user_name"
+  t.string "user_id"
+  t.string "slack_legacy_token"
+  t.string "slack_client_id"
+  t.string "slack_client_secret"
+  t.string "has_connected_today", {limit: 1}
+  t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.string "deleted", {limit: 1}
+end
+
+create_table "devices", {id: :serial, force: :cascade} do |t|
+  t.string "user_id"
+  t.string "mac_address", {limit: 17}
+  t.string "device_type"
+  t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
+  t.string "deleted", {limit: 1}
+end
