@@ -58,4 +58,8 @@ Rails.application.configure do
 
   # ログフォーマットの設定
   config.log_formatter = CustomFormatter.new
+
+  # ngrokを一時許可するとき
+  config.hosts << "ccf896f0.ngrok.io"
+  config.web_console.whitelisted_ips = '0.0.0.0/0'
 end

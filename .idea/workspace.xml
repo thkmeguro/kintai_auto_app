@@ -2,13 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf02fc4d-7e3f-4d12-ba19-6d45ffc7b751" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/assets/images/slack.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/oauth/landings_controller.rb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/oauth/registers_controller.rb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/models/concerns/encryption_module.rb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/layouts/application.html.slim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/layouts/slacks.html.slim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/oauth/landings/show.html.slim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/oauth/registers/show.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/slacks_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/slacks_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/Io/api.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/Io/api.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/member.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/member.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/mailer.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/mailer.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/mailer.text.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/mailer.text.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/Schemafile" beforeDir="false" afterPath="$PROJECT_DIR$/config/Schemafile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/credentials.yml.enc" beforeDir="false" afterPath="$PROJECT_DIR$/config/credentials.yml.enc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/environments/development.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/development.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/environments/production.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/production.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/puma.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/puma.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/environments/db.env" beforeDir="false" afterPath="$PROJECT_DIR$/environments/db.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +52,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/controllers" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -44,6 +62,17 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.gutterIcons" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/oauth/landings" />
+      <recent name="$PROJECT_DIR$/app/controllers/oauth" />
+      <recent name="$PROJECT_DIR$/app/assets/images" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/controllers" />
+      <recent name="$PROJECT_DIR$/app/views/layouts" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -55,7 +84,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1581084190627</updated>
-      <workItem from="1581084192783" duration="653000" />
+      <workItem from="1581084192783" duration="5609000" />
+      <workItem from="1581127005259" duration="42000" />
+      <workItem from="1581127386399" duration="29800000" />
     </task>
     <servers />
   </component>
@@ -63,9 +94,27 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1581086550413">
+    <state x="570" y="346" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581254805674">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581086550413" />
+    <state x="570" y="346" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.1027@0.23.1680.1027" timestamp="1581254805674" />
+    <state x="415" y="158" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581303511509">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="415" y="158" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1680.1027@0.23.1680.1027" timestamp="1581303511509" />
+    <state x="506" y="293" width="667" height="486" key="find.popup" timestamp="1581304558869">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="506" y="293" width="667" height="486" key="find.popup/-113.-1177.1920.1177/0.23.1680.1027@0.23.1680.1027" timestamp="1581172371331" />
+    <state x="506" y="293" width="667" height="486" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581304558869" />
+    <state x="505" y="248" width="670" height="675" key="run.anything.popup" timestamp="1581251175503">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="505" y="248" width="670" height="675" key="run.anything.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581251175503" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1581342354495">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/-113.-1177.1920.1177/0.23.1680.1027@0.23.1680.1027" timestamp="1581172769247" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581342354495" />
   </component>
 </project>

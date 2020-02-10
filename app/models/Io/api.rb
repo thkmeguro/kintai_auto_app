@@ -17,9 +17,10 @@ class Io::Api
   # @param string post_data POSTする場合のデータ(なければGET)
   # @return hash res 結果オブジェクト
   def request_api(url, post_data, header_options = {})
-    conn = Faraday::Connection.new(:url => url) do |builder|
-      builder.adapter Faraday::Request::UrlEncoded
-      builder.adapter Faraday::Adapter::NetHttp
+    conn = Faraday.new(:url => url) do |builder|
+      builder.request  :url_encoded
+      builder.response :logger
+      builder.adapter  :net_http
     end
 
     if post_data == '' || post_data.nil?
