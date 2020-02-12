@@ -27,7 +27,7 @@ class Slacks::IrMessagesController < ApplicationController
     slack_authed_user_id = payload['user']['id']
     state                = payload['state'] # ex: create_user_data
 
-    if member = Member.fetch_member(slack_authed_user_id)
+    if member = Member.fetch_member(slack_authed_user_id: slack_authed_user_id)
       de_access_token = member.decrypt_slack_authed_user_access_token
     end
 

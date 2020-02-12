@@ -1,6 +1,11 @@
 class Slacks::SlCommandsController < ApplicationController
   require 'json'
 
+  MACHINE_MAC_ADDRESS = 'machine_mac_address'
+  SP_MAC_ADDRESS      = 'smartphone_mac_address'
+  TABLET_MAC_ADDRESS  = 'tablet_mac_address'
+  OTHER_MAC_ADDRESS   = 'other_mac_address'
+
   def create
     log_url        = ENV.fetch("SLACK_LOG_POST_URL") {}
     header_options = { 'Content-type' => 'application/json' }
@@ -19,9 +24,9 @@ class Slacks::SlCommandsController < ApplicationController
 
     # type        = parameters['type']
     # callback_id = parameters['callback_id']
-    command     = parameters['command']
-    text        = parameters['text']
-    slack_authed_user_id     = parameters['user_id']
+    command              = parameters['command']
+    text                 = parameters['text']
+    slack_authed_user_id = parameters['user_id']
 
     if command == '/kintai_auto'
       trigger_id   = parameters['trigger_id']
@@ -38,7 +43,15 @@ class Slacks::SlCommandsController < ApplicationController
         slack.open_create_dialog(trigger_id, member)
         render json: {'text' => 'ダイアログを開きます'}, stasus: 200
       when 'show'
-        render json: { 'text' => "#{parameters}" }, stasus: 200
+        member  = Member.fetch_member(slack_authed_user_id: slack_authed_user_id)
+        devices = Device.fetch_user_mac_addresses(slack_authed_user_id: slack_authed_user_id)
+        text = "登録状況を表示します\n"
+               + "Legacy_token：#{member.slack_legacy_token ? '登録済み' : '未登録'}\n"
+        　　　　+ "#{MACHINE_MAC_ADDRESS}: #{devices[MACHINE_MAC_ADDRESS]}\n"
+        　　　　+ "#{SP_MAC_ADDRESS}: #{devices[SP_MAC_ADDRESS]}\n"
+        　　　　+ "#{TABLET_MAC_ADDRESS}: #{devices[TABLET_MAC_ADDRESS]}\n"
+        　　　　+ "#{OTHER_MAC_ADDRESS}: #{devices[OTHER_MAC_ADDRESS]}\n"
+        render json: { 'text' => "#{text}" }, stasus: 200
       when 'disable'
         render json: { 'text' => "#{parameters}" }, stasus: 200
       when 'enable'

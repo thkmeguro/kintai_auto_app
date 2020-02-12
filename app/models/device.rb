@@ -20,8 +20,14 @@ class Device < ActiveRecord::Base
   end
 
   def self.delete_current_settings(slack_authed_user_id:)
-    where(slack_authed_user_id: slack_authed_user_id)
+    active.where(slack_authed_user_id: slack_authed_user_id)
         .map { |r| r.update_with_mac_address!(attr: {deleted: DELETED}, mac_address: nil) }
+  end
+
+  def self.fetch_user_mac_addresses(slack_authed_user_id:)
+    # pluck使いたいけどmac_addressはエンクリプトしていて直接引けない
+    data = active.where(slack_authed_user_id: slack_authed_user_id)
+    data.inject({}) { |r, i| r[i.device_type] = i.decrypt_mac_address }
   end
 
   def update_with_mac_address!(attr:, mac_address:)
