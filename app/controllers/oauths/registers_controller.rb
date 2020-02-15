@@ -2,6 +2,8 @@ class RegistersController < ApplicationController
   require 'slack-ruby-client'
   include EncryptionModule
 
+  AUTH_V2_URL='https://slack.com/oauth/v2/authorize'
+
   def show
     is_from_slack = is_from_slack?
     # todo:ローカルのとき外す
@@ -11,7 +13,12 @@ class RegistersController < ApplicationController
     client = Slack::Web::Client.new
     client_id = ENV['SLACK_CLIENT_ID']
     scope = 'incoming-webhook,commands'
-    redirect_url = ENV['REDIRECT_URL'] + '?scope=' + scope + '&client_id=' + client_id
+    queries = URI.encode_www_form(
+        scope: 'teams:read users:read',
+        client_id: ENV['SLACK_CLIENT_ID'],
+    )
+    redirect_url = ENV['AUTH_V2_URL'] + '?' + queries
+
 
     # Request a token using the temporary code
     rc = client.oauth_v2_access(

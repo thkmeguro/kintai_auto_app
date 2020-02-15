@@ -6,9 +6,11 @@ class Member < ActiveRecord::Base
   before_save :encrypt_data
   after_find :decrypt_data
 
-  NOT_DELETED = NOT_ACTIVE = '0'
+  NOT_DELETED = NOT_ACTIVE = 0
+  DELETED = 1
 
-  scope :active, -> { where(deleted: NOT_DELETED) }
+  scope :active, -> { where(deleted: [nil, NOT_DELETED]) }
+  scope :not_active, -> { where(deleted: DELETED) }
   scope :not_login, -> { where(has_connected_today: [nil, NOT_ACTIVE]) }
 
   def encrypt_data
@@ -21,13 +23,26 @@ class Member < ActiveRecord::Base
     self.decrypt_slack_legacy_token = load_encryption.decrypt(self.slack_legacy_token) if self.slack_legacy_token
   end
 
-  def self.fetch_member(slack_authed_user_id)
+  def self.fetch_active_member(slack_authed_user_id:)
     active.find_by(slack_authed_user_id: slack_authed_user_id)
   end
 
+  def self.fetch_not_active_latest_member(slack_authed_user_id:)
+    not_active.where(slack_authed_user_id: slack_authed_user_id).last
+  end
+
+  def change_to_disable
+    update_with_token!(attr: {deleted: DELETED}, slack_authed_user_access_token: nil, slack_legacy_token: nil)
+  end
+
+  def change_to_enable
+    update_with_token!(attr: {deleted: NOT_DELETED}, slack_authed_user_access_token: nil, slack_legacy_token: nil)
+  end
+
   def update_with_token!(attr:, slack_authed_user_access_token:, slack_legacy_token:)
-    attr[:slack_authed_user_access_token] = self.decrypt_slack_authed_user_access_token unless slack_authed_user_access_token
-    attr[:slack_legacy_token] = self.decrypt_slack_legacy_token unless slack_legacy_token
+    attr[:slack_authed_user_access_token] = slack_authed_user_access_token ? slack_authed_user_access_token : self.decrypt_slack_authed_user_access_token
+    attr[:slack_legacy_token] = slack_legacy_token ? slack_legacy_token : self.decrypt_slack_legacy_token
+    attr[:deleted] = 0
     update!(attr)
   end
 end

@@ -20,6 +20,15 @@ class SlackClient
     @client.chat_postEphemeral(channel: channel_id, user: @slack_authed_user_id, text: text)
   end
 
+  # webhockとして投稿：特定のチャンネル
+  # todo:本当はbotとしてephemeral投稿したいので代替案見つけたら変更
+  def send_by_bot_to_specified_channel(data)
+    log_url        = ENV.fetch("SLACK_LOG_POST_URL") {}
+    header_options = { 'Content-type' => 'application/json' }
+    json = {'text' => "#{data}"}.to_json
+    Io::Api.new.request_api(log_url, json, header_options)
+  end
+
   def open_create_dialog(trigger_id, member)
     callback_id = "create_setting:#{Time.current.to_i}" # slackからdialogの返答とともに返送されてくるのでvalidationできる
     decrypt_slack_legacy_token = member.decrypt_slack_legacy_token
@@ -107,7 +116,7 @@ class SlackClient
     # todo ここをjobcanにする
     # @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/jobcan_worktime')
     @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/forecast', text: 'helsinki')
-    sleep(3)
+    sleep(2)
   end
 
   # check_work_statusと同じチャンネルのメッセージを取得してユーザーごとの勤務状況を調べる

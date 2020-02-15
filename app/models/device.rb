@@ -9,7 +9,7 @@ class Device < ActiveRecord::Base
   NOT_DELETED = 0
   DELETED     = 1
 
-  scope :active, -> { where(deleted: NOT_DELETED) }
+  scope :active, -> { where(deleted: [nil, NOT_DELETED]) }
 
   def encrypt_data
     self.mac_address = load_encryption.encrypt(self.mac_address)
@@ -27,11 +27,12 @@ class Device < ActiveRecord::Base
   def self.fetch_user_mac_addresses(slack_authed_user_id:)
     # pluck使いたいけどmac_addressはエンクリプトしていて直接引けない
     data = active.where(slack_authed_user_id: slack_authed_user_id)
-    data.inject({}) { |r, i| r[i.device_type] = i.decrypt_mac_address }
+    data.inject({}) { |r, i| r[i.device_type] = i.decrypt_mac_address ; r }
   end
 
   def update_with_mac_address!(attr:, mac_address:)
-    attr[:mac_address] = self.decrypt_mac_address unless mac_address
+    attr[:mac_address] = mac_address ? mac_address : self.decrypt_mac_address
+    attr[:deleted] = 0
     update!(attr)
   end
 end

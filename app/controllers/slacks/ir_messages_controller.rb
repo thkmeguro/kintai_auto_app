@@ -12,7 +12,7 @@ class Slacks::IrMessagesController < ApplicationController
   def create
     # log_url        = ENV.fetch("SLACK_LOG_POST_URL") {}
     # header_options = { 'Content-type' => 'application/json' }
-    parameters = dialog_param
+    # parameters = dialog_param
 
     # data = {'text' => "#{parameters}"}.to_json
     # Io::Api.new.request_api(log_url, data, header_options)
@@ -22,24 +22,29 @@ class Slacks::IrMessagesController < ApplicationController
     # todo:ローカルのとき外す
     return unless is_from_slack
 
-    payload              = JSON.parse(parameters['payload'])
+    payload              = JSON.parse(dialog_param['payload'])
     type                 = payload['type']
     slack_authed_user_id = payload['user']['id']
     state                = payload['state'] # ex: create_user_data
 
-    if member = Member.fetch_member(slack_authed_user_id: slack_authed_user_id)
-      de_access_token = member.decrypt_slack_authed_user_access_token
-    end
-
     if type === DATA_SUBMISSION
       case state
       when 'create_user_data'
-        Rails.logger.info text = create_user_data_by_dialog(slack_authed_user_id, payload)
-        slack = SlackClient.new(de_access_token, slack_authed_user_id)
+        member = Member.fetch_active_member(slack_authed_user_id: slack_authed_user_id)
+
+        return unless decrypt_access_token = member.decrypt_slack_authed_user_access_token
+
+        Rails.logger.info text = create_user_data_by_dialog(member, slack_authed_user_id, payload)
+        bot_token = ENV.fetch('SLACK_BOT_TOKEN') {}
+
+        raise 'SLACK_BOT_TOKENが空欄です' if bot_token.blank?
+
+        slack      = SlackClient.new(decrypt_access_token, slack_authed_user_id)
         channel_id = payload['channel']['id']
         slack.chat_post_ephemeral(text, channel_id)
         return render json: {}, stasus: 200
       else
+        Rails.logger.error "#{slack_authed_user_id}: ダイアログからの登録に失敗しました"
         return render json: {}, stasus: 200
       end
     end
@@ -51,10 +56,10 @@ class Slacks::IrMessagesController < ApplicationController
     params.permit(:payload)
   end
 
-  def create_user_data_by_dialog(slack_authed_user_id, payload)
+  def create_user_data_by_dialog(member, slack_authed_user_id, payload)
     validate_data(payload)
 
-    member = Member.find_or_initialize_by(slack_authed_user_id: slack_authed_user_id)
+    # member = Member.find_or_initialize_by(slack_authed_user_id: slack_authed_user_id)
     slack_legacy_token = payload['submission'][SLACK_LEGACY_TOKEN]
 
     member.update_with_token!(attr: {}, slack_authed_user_access_token: nil, slack_legacy_token: slack_legacy_token)
@@ -72,7 +77,7 @@ class Slacks::IrMessagesController < ApplicationController
 
     mac_address_list.each do |device_type, mac_address|
       next unless mac_address
-      device = Device.find_or_initialize_by({
+      p device = Device.find_or_initialize_by({
                                                 slack_authed_user_id: slack_authed_user_id,
                                                 device_type: device_type
                                             })
