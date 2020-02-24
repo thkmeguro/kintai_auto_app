@@ -6,17 +6,17 @@ create_table "admins", {id: :serial, force: :cascade} do |t|
   t.string "token"
   t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
   t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
-  t.boolean "USING deleted::boolean", {default: false}
+  t.boolean "deleted", {default: false}
 end
 
 create_table "members", {id: :serial, force: :cascade} do |t|
   t.string "slack_legacy_token", comment: 'for channel.command, will be deprecated'
   t.string "slack_authed_user_id", comment: 'for new OAuth 2'
   t.string "slack_authed_user_access_token", comment: 'for new OAuth 2'
-  t.boolean "USING has_connected_today::boolean", {default: false}
+  t.boolean "has_connected_today", {default: false}
   t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
   t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
-  t.boolean "USING deleted::boolean", {default: false}
+  t.boolean "deleted", {default: false}
 end
 
 create_table "devices", {id: :serial, force: :cascade} do |t|
@@ -25,5 +25,5 @@ create_table "devices", {id: :serial, force: :cascade} do |t|
   t.string "device_type"
   t.datetime "created_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
   t.datetime "updated_at", {default: -> { "CURRENT_TIMESTAMP" }, null: false}
-  t.boolean "USING deleted::boolean", {default: false}
+  t.boolean "deleted", {default: false}
 end
