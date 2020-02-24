@@ -4,14 +4,15 @@ class SlackClient
   SP_MAC_ADDRESS      = 'smartphone_mac_address'
   TABLET_MAC_ADDRESS  = 'tablet_mac_address'
   OTHER_MAC_ADDRESS   = 'other_mac_address'
+  DIALOG_CREATE_USER  = 'create_user_data'
 
   # WORK_STATUS_CHECK_CHANNEL_ID = 'DD7V37Y73' # todo:teamによって変える.これはSORAの個人DM内
   WORK_STATUS_CHECK_CHANNEL_ID = 'CTKL5S6TH' # todo:teamによって変える.これはMTのプライベートチャンネル
   # WORK_STATUS_CHECK_CHANNEL_ID = 'CTU70KWNQ' # todo:teamによって変える.これはMTのパブリックチャンネル
 
-  def initialize(token, slack_authed_user_id = '')
+  def initialize(token = nil, slack_authed_user_id = '')
     @slack_authed_user_id = slack_authed_user_id
-    Slack.configure { |config| config.token = token }
+    Slack.configure { |config| config.token = token } if token
     @client = Slack::Web::Client.new
   end
 
@@ -39,7 +40,7 @@ class SlackClient
       'title' => '自動打刻設定の登録',
       'submit_label' => '登録する',
       'notify_on_cancel' => true,
-      'state' => 'create_user_data',
+      'state' => DIALOG_CREATE_USER,
       'elements' => [
         {
           'type'        => 'text',
@@ -112,14 +113,14 @@ class SlackClient
 
   # 勤怠時間を確認し特定のチャンネルに投稿する
   # chat_commandはlegacy_tokenで作ったインスタンスでのみ可能
-  def check_work_status
+  def check_and_post_work_status
     # todo ここをjobcanにする
     # @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/jobcan_worktime')
     @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/forecast', text: 'helsinki')
     sleep(2)
   end
 
-  # check_work_statusと同じチャンネルのメッセージを取得してユーザーごとの勤務状況を調べる
+  # check_and_post_work_statusと同じチャンネルのメッセージを取得してユーザーごとの勤務状況を調べる
   def fetch_todays_jobcan_mss
     # todo:個人のDMで実験するのでim_historyメソッドを使用する
     # messages = @client.im_history(channel: WORK_STATUS_CHECK_CHANNEL_ID, inclusive: true).messages
@@ -166,5 +167,21 @@ class SlackClient
     # @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/jobcan_touch')
     #
     @client.chat_command(channel: WORK_STATUS_CHECK_CHANNEL_ID, command:'/forecast', text: 'taipei')
+  end
+
+  # OAuth系で使用する
+  def exec_oauth_v2_access(code)
+    # Request a token using the temporary code
+    rc = @client.oauth_v2_access(
+        client_id:     ENV.fetch('SLACK_CLIENT_ID') {},
+        client_secret: ENV.fetch('SLACK_CLIENT_SECRET') {},
+        code:          code
+    )
+    response_log(rc)
+  end
+
+  def response_log(rc)
+    Rails.logger.info rc
+    rc
   end
 end

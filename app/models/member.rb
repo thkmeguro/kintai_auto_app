@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   include CommonModel
+  # has_many :devices
 
   attr_accessor :decrypt_slack_authed_user_access_token, :decrypt_slack_legacy_token
 
@@ -11,6 +12,7 @@ class Member < ActiveRecord::Base
 
   scope :active, -> { where(deleted: [nil, NOT_DELETED]) }
   scope :not_active, -> { where(deleted: DELETED) }
+  scope :login, -> { where(has_connected_today: 1) }
   scope :not_login, -> { where(has_connected_today: [nil, NOT_ACTIVE]) }
 
   def encrypt_data
@@ -31,18 +33,43 @@ class Member < ActiveRecord::Base
     not_active.where(slack_authed_user_id: slack_authed_user_id).last
   end
 
+  def self.fetch_not_online_member(slack_authed_user_id:)
+    active.not_login.find_by(slack_authed_user_id: slack_authed_user_id)
+  end
+
+  def self.fetch_online_members
+    active.login
+  end
+
+  def self.find_or_create_member(user_id:, access_token:)
+    member = find_or_initialize_by(slack_authed_user_id: user_id)
+    member.update_with_token!(attr: { slack_authed_user_access_token: access_token })
+  end
+
   def change_to_disable
-    update_with_token!(attr: {deleted: DELETED}, slack_authed_user_access_token: nil, slack_legacy_token: nil)
+    update_with_token!(attr: {deleted: DELETED})
   end
 
   def change_to_enable
-    update_with_token!(attr: {deleted: NOT_DELETED}, slack_authed_user_access_token: nil, slack_legacy_token: nil)
+    update_with_token!
   end
 
-  def update_with_token!(attr:, slack_authed_user_access_token:, slack_legacy_token:)
-    attr[:slack_authed_user_access_token] = slack_authed_user_access_token ? slack_authed_user_access_token : self.decrypt_slack_authed_user_access_token
-    attr[:slack_legacy_token] = slack_legacy_token ? slack_legacy_token : self.decrypt_slack_legacy_token
-    attr[:deleted] = 0
+  def update_with_token!(attr: {})
+    attr[:slack_authed_user_access_token] ||= self.decrypt_slack_authed_user_access_token
+    attr[:slack_legacy_token] ||= self.decrypt_slack_legacy_token
+    attr[:deleted] ||= 0
     update!(attr)
+  end
+
+  private
+
+  # activerecord/lib/active_record/persistence.rb
+  # updateをオーバーライドしてmodel内でのみ使用できるようにする
+  def update!(attr)
+    self.update_attributes!(attr)
+  end
+
+  def update(attr)
+    self.update_attributes(attr)
   end
 end

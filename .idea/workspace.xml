@@ -3,12 +3,21 @@
   <component name="ChangeListManager">
     <list default="true" id="bf02fc4d-7e3f-4d12-ba19-6d45ffc7b751" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gemfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gemfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/concerns/jobcan.rb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/concerns/slack_client.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/concerns/slack_client.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/kintai_statuses_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/kintai_statuses_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/oauths/landings_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/oauths/landings_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/oauths/registers_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/oauths/registers_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/slacks/ir_messages_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/slacks/ir_messages_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/slacks/sl_commands_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/slacks/sl_commands_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/device.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/device.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models/member.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/member.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/oauths.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/oauths.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/oauths/landings/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/oauths/landings/show.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/oauths/registers/show.html.slim" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/oauths/registers/show.html.slim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/application.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/application.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/environments/development.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/development.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +44,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/views/layouts/oauths" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/views/home" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -48,17 +57,21 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spec/controllers/concern" />
+      <recent name="$PROJECT_DIR$/app/controllers/concerns" />
+      <recent name="$PROJECT_DIR$/spec" />
       <recent name="$PROJECT_DIR$/app/models/concerns" />
       <recent name="$PROJECT_DIR$/app/views/layouts" />
-      <recent name="$PROJECT_DIR$/app/views/layouts/slacks" />
-      <recent name="$PROJECT_DIR$/app/controllers/slacks" />
-      <recent name="$PROJECT_DIR$/app/views/oauth/landings" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/home" />
       <recent name="$PROJECT_DIR$/app/views/layouts/oauths" />
       <recent name="$PROJECT_DIR$/app/controllers" />
       <recent name="$PROJECT_DIR$/app/views/layouts" />
     </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -74,7 +87,10 @@
       <workItem from="1581127005259" duration="42000" />
       <workItem from="1581127386399" duration="55864000" />
       <workItem from="1581409281061" duration="13125000" />
-      <workItem from="1581510923414" duration="17142000" />
+      <workItem from="1581510923414" duration="64462000" />
+      <workItem from="1582381507946" duration="8286000" />
+      <workItem from="1582510997251" duration="422000" />
+      <workItem from="1582512024820" duration="1181000" />
     </task>
     <servers />
   </component>
@@ -82,6 +98,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581865750458">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1581865750458" />
     <state x="570" y="346" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581254805674">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
@@ -94,22 +114,25 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="415" y="158" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1680.1027@0.23.1680.1027" timestamp="1581303511509" />
-    <state x="506" y="293" width="667" height="486" key="find.popup" timestamp="1581598508122">
-      <screen x="0" y="23" width="1680" height="1027" />
+    <state x="465" y="-868" width="763" height="557" key="find.popup" timestamp="1582472831918">
+      <screen x="-113" y="-1177" width="1920" height="1177" />
     </state>
-    <state x="465" y="-868" width="763" height="557" key="find.popup/-113.-1177.1920.1177/0.23.1680.1027@-113.-1177.1920.1177" timestamp="1581520706515" />
+    <state x="465" y="-868" width="763" height="557" key="find.popup/-113.-1177.1920.1177/0.23.1680.1027@-113.-1177.1920.1177" timestamp="1582472831918" />
     <state x="506" y="293" width="667" height="486" key="find.popup/-113.-1177.1920.1177/0.23.1680.1027@0.23.1680.1027" timestamp="1581172371331" />
-    <state x="506" y="293" width="667" height="486" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581598508122" />
-    <state x="464" y="-919" width="766" height="774" key="run.anything.popup" timestamp="1581513128215">
+    <state x="465" y="-868" width="763" height="557" key="find.popup/0.23.1680.1027/-113.-1177.1920.1177@-113.-1177.1920.1177" timestamp="1582386545493" />
+    <state x="506" y="293" width="667" height="486" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581865466621" />
+    <state x="464" y="-919" width="766" height="774" key="run.anything.popup" timestamp="1582385828028">
       <screen x="-113" y="-1177" width="1920" height="1177" />
     </state>
     <state x="464" y="-919" width="766" height="774" key="run.anything.popup/-113.-1177.1920.1177/0.23.1680.1027@-113.-1177.1920.1177" timestamp="1581513128215" />
-    <state x="505" y="248" width="670" height="675" key="run.anything.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581412222053" />
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1581777852154">
-      <screen x="0" y="23" width="1680" height="1027" />
+    <state x="464" y="-919" width="766" height="774" key="run.anything.popup/0.23.1680.1027/-113.-1177.1920.1177@-113.-1177.1920.1177" timestamp="1582385828028" />
+    <state x="505" y="248" width="670" height="675" key="run.anything.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581834161518" />
+    <state x="464" y="-917" width="766" height="775" key="search.everywhere.popup" timestamp="1582467687156">
+      <screen x="-113" y="-1177" width="1920" height="1177" />
     </state>
-    <state x="464" y="-917" width="766" height="775" key="search.everywhere.popup/-113.-1177.1920.1177/0.23.1680.1027@-113.-1177.1920.1177" timestamp="1581515824573" />
+    <state x="464" y="-917" width="766" height="775" key="search.everywhere.popup/-113.-1177.1920.1177/0.23.1680.1027@-113.-1177.1920.1177" timestamp="1582467687156" />
     <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/-113.-1177.1920.1177/0.23.1680.1027@0.23.1680.1027" timestamp="1581172769247" />
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1581777852154" />
+    <state x="464" y="-917" width="766" height="775" key="search.everywhere.popup/0.23.1680.1027/-113.-1177.1920.1177@-113.-1177.1920.1177" timestamp="1582385663788" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1582380682894" />
   </component>
 </project>

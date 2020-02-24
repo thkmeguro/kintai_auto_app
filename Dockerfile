@@ -1,14 +1,18 @@
 FROM ruby:2.7.0
 
 # リポジトリを更新し依存モジュールをインストール
-RUN apt-get update -qq && \
+RUN set -eu && \
+    apt-get update -qq && \
     apt-get install -y build-essential \
                        nodejs \
                        vim
-RUN apt-get update && apt-get install -y curl apt-transport-https wget && \
+RUN set -eu && \
+    apt-get update && apt-get install -y curl apt-transport-https wget && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn
+
+ENV TZ Asia/Tokyo
 
 # ルート直下にwebapiという名前で作業ディレクトリを作成（コンテナ内のアプリケーションディレクトリ）
 RUN mkdir /webapi

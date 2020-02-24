@@ -1,38 +1,40 @@
-class RegistersController < ApplicationController
+class Oauths::RegistersController < ApplicationController
   require 'slack-ruby-client'
   include EncryptionModule
 
-  AUTH_V2_URL='https://slack.com/oauth/v2/authorize'
+  OAUTH_STATE = 'from-tm-sending'
 
   def show
-    is_from_slack = is_from_slack?
-    # todo:ローカルのとき外す
-    return unless is_from_slack
+    logger
 
-    # Instantiate a web client
-    client = Slack::Web::Client.new
-    client_id = ENV['SLACK_CLIENT_ID']
-    scope = 'incoming-webhook,commands'
-    queries = URI.encode_www_form(
-        scope: 'teams:read users:read',
-        client_id: ENV['SLACK_CLIENT_ID'],
+    @result_text = ''
+    @result_text += 'データが不正です' if parameters['state'] != OAUTH_STATE
+
+    slack_client = SlackClient.new
+    response = slack_client.exec_oauth_v2_access(parameters['code'])
+
+    return @result_text += 'authed_userの情報がないです' unless response['authed_user']
+
+    find_or_create_member(response)
+
+    @result_text += '登録完了しました！'
+  end
+
+  private
+
+  def parameters
+    params.permit(:code, :state)
+  end
+
+  def logger
+    Rails.logger.info request.headers
+    Rails.logger.info parameters
+  end
+
+  def find_or_create_member(response)
+    Member.find_or_create_member(
+        user_id: response['authed_user']['id'],
+        access_token: response['authed_user']['access_token']
     )
-    redirect_url = ENV['AUTH_V2_URL'] + '?' + queries
-
-
-    # Request a token using the temporary code
-    rc = client.oauth_v2_access(
-      client_id: client_id,
-      client_secret: ENV['SLACK_CLIENT_SECRET'],
-      code: params[:code],
-      redirect_url: redirect_url
-    )
-
-    # Pluck the token from the response
-    user_id = rc['authed_user']['id']
-    access_token  = rc['authed_user']['access_token']
-
-    member = Member.find_or_initialize_by(slack_authed_user_id: user_id)
-    member.update_with_token!(attr: {}, slack_authed_user_access_token: access_token, slack_legacy_token: nil)
   end
 end
