@@ -10,8 +10,9 @@ RSpec.describe KintaiService, type: :concern do
         let!(:device_1) { create(:device) }
 
         it '打刻とフラグ変えが行われること' do
-          slack_client_latest_mock = double('slack client mock')
-          slack_client_legacy_mock = double('slack client mock')
+          slack_client_latest_mock = double('slack client latest mock')
+          slack_client_legacy_mock = double('slack client legacy mock')
+
           expect(slack_client_latest_mock).to receive(:is_user_id_valid?).and_return(true)
           expect(slack_client_legacy_mock).to receive(:check_and_post_work_status).and_return(true)
           expect(slack_client_latest_mock).to receive(:fetch_todays_jobcan_mss).and_return({is_working: true, time: Time.now})
@@ -19,15 +20,12 @@ RSpec.describe KintaiService, type: :concern do
 
           dummy_mac_address_list = %w(aa:bb:cc:dd:ee:11 aa:bb:cc:dd:ee:12)
           kintai_service = KintaiService.new(dummy_mac_address_list)
-          remove_list = ['']
-          stub_const("KintaiService", remove_list)
+          remove_list = []
+          stub_const("KintaiService::REMOVE_LIST", remove_list)
           expect(KintaiService::REMOVE_LIST).to eq(remove_list)
 
-          expect(kintai_service.execute_jobcan)
-              .to receive(:slack_client).and_return(slack_client_latest_mock, slack_client_legacy_mock)
-              .to change(member_not_login.has_connected_today).to(1)
-              .and change(member_not_login.slack_legacy_token).eq(member_not_login.slack_legacy_token)
-              .and change(member_not_login.slack_authed_user_access_token).eq(member_not_login.slack_authed_user_access_token)
+          expect( kintai_service ).to receive(:slack_client).and_return(slack_client_latest_mock, slack_client_legacy_mock)
+          expect{ kintai_service.execute_jobcan }.to change{ Member.login.size }.from(0).to(1)
         end
       end
 

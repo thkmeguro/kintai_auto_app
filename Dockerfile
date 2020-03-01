@@ -12,6 +12,10 @@ RUN set -eu && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
     apt-get update && apt-get install -y yarn
 
+RUN set -eu && \
+    curl -sfL https://direnv.net/install.sh | bash && \
+    echo eval "$(direnv hook bash)" >> ~/.bashrc
+
 ENV TZ Asia/Tokyo
 
 # ルート直下にwebapiという名前で作業ディレクトリを作成（コンテナ内のアプリケーションディレクトリ）

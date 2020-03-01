@@ -15,9 +15,15 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'factory_bot_rails'
+require 'rake'
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    Rails.application.load_tasks
+    Rake.application['db:apply:webapi_test'].invoke if Rails.env.test?
+  end
 
   config.after(:all) do
     FactoryBot.rewind_sequences if Rails.env.test?
