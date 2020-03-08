@@ -105,6 +105,7 @@ class SlackClient
   def is_user_id_valid?
     begin
       @client.users_info(user: @slack_authed_user_id)
+      true
     rescue => e
       Rails.logger.error e.message
       false

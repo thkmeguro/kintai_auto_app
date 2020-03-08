@@ -7,12 +7,12 @@ class Member < ActiveRecord::Base
   before_save :encrypt_data
   after_find :decrypt_data
 
-  NOT_DELETED = NOT_ACTIVE = 0
-  DELETED = 1
+  NOT_DELETED = NOT_ACTIVE = false
+  DELETED = true
 
   scope :active, -> { where(deleted: [nil, NOT_DELETED]) }
   scope :not_active, -> { where(deleted: DELETED) }
-  scope :login, -> { where(has_connected_today: 1) }
+  scope :login, -> { where(has_connected_today: true) }
   scope :not_login, -> { where(has_connected_today: [nil, NOT_ACTIVE]) }
 
   def encrypt_data
@@ -34,7 +34,8 @@ class Member < ActiveRecord::Base
   end
 
   def self.fetch_not_online_member(slack_authed_user_id:)
-    active.not_login.find_by(slack_authed_user_id: slack_authed_user_id)
+    m = active.not_login.find_by(slack_authed_user_id: slack_authed_user_id)
+    m.blank? ? nil : m
   end
 
   def self.fetch_online_members
@@ -57,7 +58,7 @@ class Member < ActiveRecord::Base
   def update_with_token!(attr: {})
     attr[:slack_authed_user_access_token] ||= self.decrypt_slack_authed_user_access_token
     attr[:slack_legacy_token] ||= self.decrypt_slack_legacy_token
-    attr[:deleted] ||= 0
+    attr[:deleted] ||= false
     update!(attr)
   end
 

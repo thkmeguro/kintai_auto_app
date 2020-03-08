@@ -7,8 +7,8 @@ class Device < ActiveRecord::Base
   before_save :encrypt_data
   after_find :decrypt_data
 
-  NOT_DELETED = 0
-  DELETED     = 1
+  NOT_DELETED = false
+  DELETED     = true
 
   scope :active, -> { where(deleted: [nil, NOT_DELETED]) }
 
@@ -39,7 +39,7 @@ class Device < ActiveRecord::Base
 
   def update_with_mac_address!(attr: {})
     attr[:mac_address] ||= self.decrypt_mac_address
-    attr[:deleted] ||= 0
+    attr[:deleted] ||= true
     update!(attr)
   end
 

@@ -5,10 +5,10 @@ FactoryBot.define do
     device_type { 'machine_mac_address' }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
-    deleted { 0 }
+    deleted { false }
   end
 
   trait(:device_deleted) do
-    deleted { 1 }
+    deleted { true }
   end
 end
