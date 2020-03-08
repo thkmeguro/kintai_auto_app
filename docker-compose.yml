@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/webapi
       - public-data:/webapi/public
-      - tmp-data:/webapi/tmp
+      - tmp-data:/webapi/tmp/*
       - log-data:/webapi/log/*
     depends_on:
       - db

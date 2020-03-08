@@ -6,6 +6,7 @@ RUN set -eu && \
     apt-get install -y build-essential \
                        nodejs \
                        vim
+
 # View含めたRails6の場合webpackerを使用するためyarnが必要
 RUN set -eu && \
     apt-get update && apt-get install -y curl apt-transport-https wget && \
@@ -35,5 +36,7 @@ RUN bundle install
 # ホストのアプリケーションディレクトリ内をすべてコンテナにコピー
 ADD . /webapi
 
-# puma.sockを配置するディレクトリを作成
-RUN mkdir -p tmp/sockets
+# puma.sockとpidファイルを配置するディレクトリを作成
+RUN mkdir -p tmp/sockets && \
+    mkdir -p tmp/pids
+
